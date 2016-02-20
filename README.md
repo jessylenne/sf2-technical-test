@@ -1,49 +1,52 @@
-# StadLine Technical Test
+# Github's Comments
 
-### Tache
-
-Le sujet de base est simple : Il faut créer une page sécurisée qui permet à un utilisateur de se loguer et de faire un commentaire sur un dépôt publique d'un utilisateur GitHub.
-La fonctionnalité de commentaire n'existe pas sur Github, vous devrez donc stocker et afficher ces commentaires dans votre espace sécurisé.
-
-### Règles
-
-* Le temps est libre mais il est tout de même conseillé de passer moins de 4h sur le sujet (temps de setup d'environnement compris)
-* Il est conseillé de finir les points requis avant de s'attaquer au bonus. 
-* Il est aussi conseillé de faire un maximum de commit pour bien détailler les étapes de votre raisonnement au cours du développement.
-* N'hésitez pas à nous faire des retours et nous expliquer les éventuelles problématiques bloquantes que vous auriez rencontrées durant le développement vous empéchant de finir.
-
-### Setup
-
-* La charte graphique n'est pas imposée et sera jugée en bonus. L'emploi d'un framework CSS type Twitter Bootstrap est fortement conseillé. 
-* Vous aurez besoin d'un environnement php5.5, Symfony2 et un serveur pour l'application. 
-
-### Les pré-requis
-
-* Vous êtes libre d'utiliser un bundle d'authentification externe ou votre propre bundle. 
-* Le formulaire de connexion doit avoir une validation coté serveur. 
-* Toutes les pages doivent être sécurisées et pointer sur la page de login si l'utilisateur n'est pas connecté. 
-* Le choix du client HTTP est laissé à discrétion pour appeller l'API de GitHub.
-* Une fois connecté, il est nécessaire d'implémenter un champ de recherche qui permette de chercher les utilisateurs GitHub. La documentation est disponible ici : https://developer.github.com/v3/search/#search-users . 
-* Vous devez appeller l'API suivante avec q=searchFieldContent :
+## Installation
+### Docker
+Vous pouvez lancer le projet en utilisant docker avec la commande suivante:
+```sh
+docker run -d -p 80:80 -p 3306:3306 jessylenne/g6lamp
 ```
-https://api.github.com/search/users
+
+Puis ouvrez votre navigateur sur http://localhost
+
+> Si la page ne s'affiche pas, c'est sans doute que le serveur virtuel n'as pas réussi à se placer sur localhost:80, retrouvez alors l'adresse IP à mettre dans le navigateur avec la commande
+```sh
+docker-machine ip
 ```
-* Une fois le champ de recherche validé et l'utilisateur sélectionné, on arrive sur l'url /{username}/comment, on affiche un formulaire qui sera composé des champs suivants : un champ texte pour le nom d'un dépôt ({user}/{repos}, e.g : stadline/sf2-technical-test), un textArea pour le commentaire, un bouton valider permettant d'ajouter un commentaire. 
-* On affichera en dessous la liste des commentaires déjà saisis pour l'utilisateur.
-* Lors de la validation du formulaire, on vérifiera que le repository sélectionné est bien un dépôt appartenant à l'utilisateur précédement recherché.
-* On attend aussi de vous que le code soit testable et testé.
 
-### Bonus
+### Installation manuelle
 
-* On changera le choix du dépôt par un multiselect afin de lister directement dans le formulaire les dépôts de l'utilisateur. 
-* Utilisation d'un frameworkJS pour afficher les résultats
-* Toutes les fonctionnalités que vous aurez le temps d'ajouter seront aussi bonnes à prendre. Un bonus autour de votre créativité pourra être considéré.
+- Clonez ce dépot sur votre ordinateur ou directement sur un serveur contenant php
+- Sur windows:
+    - Lancez dev.bat qui executera php (ainsi que gulp et browser-sync qui sont facultatifs)
+    - si browser-sync n'est pas installé, ouvrir manuellement l'URL "localhost:8888" dans votre navigateur
+    - Si php ne fonctionne pas, vérifiez qu'il est bien présent dans le PATH de windows
+- Sans dev.bat, ou sur une autre plateforme:
+    - Avec SQLite
+        - Acceder via un terminal au repertoire /public et lancer
+```sh
+$ php -S localhost:8888
+```
+-    -
+        - accedez via votre navigateur à localhost:8888
+        - OU placer les fichiers du projet sur un serveur contenant PHP (>=5.3), et ouvrir l'URL correspondante dans votre navigateur
+    - Avec SQL
+         - Créer une base de données dédiée
+         - Y importer /install.sql
+         - Modifier le fichier /.env en spécifiant comme driver "mysql", et en corrigeant si besoin le reste des champs de la section "database"
 
-### Délivrabilité
+## Développement
+### Prérequis
+Installez les dépendances requises
+```sh
+$ composer install
+$ npm install
+```
+Vous aurez également besoin de phpunit s'il n'est pas déjà installé
+### Modification
+Sur windows, il vous suffit de lancer dev.bat qui lancera pour vous browser-sync et
+```sh
+$ gulp watch
+```
 
-* Forkez le projet sur GitHub et codez directement dans le projet forké. 
-* Commitez aussi souvent que possible et commentez vos commits pour détailler votre chemin de pensée. 
-* Mettez à jour le README pour ajouter le temps passé et tout ce que vous jugerez nécessaire de nous faire savoir. 
-* Envoyez le lien avec le projet à recrutement@stadline.com. 
-
-**Bonne chance !**
+Gulp se charge du lintage JS, concaténation et modification JS/SASS et des tests PHPUnit
