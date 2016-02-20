@@ -14,6 +14,16 @@ class Github {
         return self::makeRequest('/search/users', array('q' => $search));
     }
 
+    /**
+     * Get user's github profile
+     * @param $username
+     * @return array|bool
+     */
+    public static function getUser($username)
+    {
+        return self::makeRequest('/users/'.$username);
+    }
+
     private static function getClient()
     {
         if(!self::$_client)
