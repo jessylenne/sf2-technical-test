@@ -7,11 +7,13 @@ var jshint      = require('gulp-jshint'),
     path        = require('path'),
     sourcemaps  = require("gulp-sourcemaps"),
     babel       = require("gulp-babel"),
-    concat      = require("gulp-concat");
+    concat      = require("gulp-concat")
+    phpunit = require('gulp-phpunit');
 
 var source = {
     js:'ressources/assets/js/',
-    sass:'ressources/assets/sass/'
+    sass:'ressources/assets/sass/',
+    php:['app/*.*','app/*/*.*','test/*/*.*']
 };
 
 var dist = {js:'public/assets/js/',css:'public/assets/css/'};
@@ -22,6 +24,7 @@ gulp.task('lint', function () {
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
+
 gulp.task('js', function () {
     gulp.src(source.js+"*.js")
         .pipe(sourcemaps.init())
@@ -37,7 +40,14 @@ gulp.task('sass', function () {
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(gulp.dest(dist.css));
 });
-gulp.task('build', ['sass','js']);
+
+// PHPUnit
+gulp.task('phpunit', function() {
+    gulp.src('phpunit.xml')
+        .pipe(phpunit("%APPDATA%/Composer/vendor/bin/phpunit"));
+});
+
+gulp.task('build', ['sass','js','phpunit']);
 
 // Default
 gulp.task('default', ['build']);
@@ -46,4 +56,5 @@ gulp.task('default', ['build']);
 gulp.task('watch', function () {
     gulp.watch(source.sass + '*.scss', ['sass']);
     gulp.watch(source.js + '*.js', ['lint', 'js']);
+    gulp.watch(source.php, ['phpunit']);
 });
