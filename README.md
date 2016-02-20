@@ -13,6 +13,7 @@ Puis ouvrez votre navigateur sur http://localhost
 ```sh
 docker-machine ip
 ```
+> En général ce sera http://192.168.99.100/
 
 ### Installation manuelle
 
