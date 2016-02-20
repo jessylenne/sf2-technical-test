@@ -24,6 +24,16 @@ class Github {
         return self::makeRequest('/users/'.$username);
     }
 
+    /**
+     * Retrieve user's repositories
+     * @param $username
+     * @return array|bool
+     */
+    public static function getUserRepositories($username)
+    {
+        return Github::makeRequest("users/{$username}/repos");
+    }
+
     private static function getClient()
     {
         if(!self::$_client)

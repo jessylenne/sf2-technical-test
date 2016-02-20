@@ -17,3 +17,13 @@
     margin-top: 0;
   }
 }
+
+.comments_list .comment {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.repository_detail {
+  display: none;
+}
