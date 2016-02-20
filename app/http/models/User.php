@@ -52,4 +52,29 @@ class User extends ObjectModel {
 
         return $this;
     }
+
+    /**
+     * Retrieve my comments
+     * @param array $params filters (column)
+     * @return array
+     * @throws Exception
+     */
+    public function comments($params = array())
+    {
+        $query = new DbQuery();
+        $query->select('*')
+            ->from('comment')
+            ->where('id_user = '.(int)$this->id)
+            ->orderBy('date_add DESC');
+
+        if(isset($params['username']))
+            $query->where('username = "'.pSQL($params['username']).'"');
+
+        $results = Db::getInstance()->ExecuteS($query);
+
+        if(!Validate::isNonEmptyArray($results))
+            return array();
+
+        return ObjectModel::hydrateCollection('Comment', $results);
+    }
 }

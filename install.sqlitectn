@@ -5,3 +5,13 @@ CREATE TABLE user
     password VARCHAR(150) NOT NULL,
     date_add DATETIME NOT NULL
 );
+
+CREATE TABLE comment
+(
+    id_comment INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_user INT NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    repository VARCHAR(50) NOT NULL,
+    comment TEXT NOT NULL,
+    date_add DATETIME NOT NULL
+);
