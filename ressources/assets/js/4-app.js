@@ -10,4 +10,14 @@ $(function() {
         $('.repository_detail').slideUp();
         $('#repository_detail_'+val).slideDown();
     }).change();
+
+    // Champs de recherche autocomplete
+    $(".search-form input[type=text]").autocomplete({
+        source: "/index.php?controller=comments&submitSearchAccount=1&",
+        minLength: 4,
+        select: function( event, ui ) {
+            $(this).val(ui.item.value);
+            window.location.href = "/index.php?controller=comments&user="+ui.item.value;
+        }
+    });
 });

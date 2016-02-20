@@ -48,7 +48,11 @@ class CommentsController extends Controller {
             $this->setTemplate('comments/search.tpl');
 
             try {
-                $accounts = Github::searchAccounts(Tools::getValue('search'));
+                $accounts = Github::searchAccounts(Tools::getValue('search', Tools::getValue('term')));
+
+                if(Tools::getIsset('term')) { // Depuis ajax
+                    $this->renderAjaxSearch($accounts);
+                }
 
                 $this->context->smarty->assign(array(
                     'total_count'   => $accounts['total_count'],
@@ -104,5 +108,23 @@ class CommentsController extends Controller {
         }
 
         return false;
+    }
+
+    /**
+     * Rendu ajax (autocomplete)
+     * @param array $accounts
+     */
+    private function renderAjaxSearch($accounts)
+    {
+        header('Content-type: text/json');
+        $result = array();
+
+        if(Validate::isNonEmptyArray($accounts['items']))
+        {
+            foreach($accounts['items'] as $account)
+                $result[] = $account['login'];
+        }
+
+        exit(json_encode($result));
     }
 }
