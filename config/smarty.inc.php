@@ -1,5 +1,22 @@
 <?php
 
+smartyRegisterFunction(Context::getContext()->smarty, 'modifier', 'text', 'smartyText');
+smartyRegisterFunction(Context::getContext()->smarty, 'modifier', 'sanitize', 'smartySanitize');
+
+function smartyText($data)
+{
+    // Prevent xss injection.
+    if (Validate::isCleanHtml($data)) {
+        return stripslashes(preg_replace('/\v+|\\\[rn]/','<br/>', $data));
+    }
+
+    return '';
+}
+
+function smartySanitize($data)
+{
+    return htmlentities($data);
+}
 
 function smartyRegisterFunction($smarty, $type, $function, $params, $lazy = true)
 {

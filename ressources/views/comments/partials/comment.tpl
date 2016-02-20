@@ -9,6 +9,5 @@
         </ul>
     </div>
     <div class="col-xs-8">
-        <div class="well">{$comment->getComment()}</div>
-    </div>
+        <div class="well">{$comment->getComment()|text}</div> </div>
 </div>

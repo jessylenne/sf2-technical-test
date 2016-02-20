@@ -7,6 +7,7 @@
                 </div>
                 <div class="panel-body">
                     <form method="post">
+                        {* @todo csrf *}
                         <div class="text-center">
                             <h2 class="panel-title-icon"><i class="fa fa-key"></i></h2>
                         </div>

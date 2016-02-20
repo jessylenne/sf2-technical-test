@@ -4,9 +4,10 @@
     </div>
     <div class="panel-body">
         <form method="post" action="{$link->getPageLink('comments', ['add' => 1, 'user' => $profile.login])}">
+            {* @todo csrf *}
             <div class="form-group">
                 <label for="comment">Commentaire</label>
-                <textarea name="comment" id="comment" class="form-control" rows="5" cols="10">{if isset($smarty.post.comment)}{$smarty.post.comment}{/if}</textarea>
+                <textarea name="comment" id="comment" class="form-control" rows="5" cols="10">{if isset($smarty.post.comment)}{$smarty.post.comment|sanitize}{/if}</textarea>
             </div>
             <div class="alert alert-info">Choisissez de commenter l'utilisateur ou l'un de ses dépot en particulier</div>
             <div class="row">
