@@ -33,9 +33,9 @@
             {else}
                 <h2><i class="fa fa-comment"></i> {if $comments}{sizeof($comments)}{/if} Commentaire{if sizeof($comments) > 1}s{/if}</h2>
                 <div class="comments_list">
-                {foreach from=$comments item=comment}
-                    {* @todo Liste des commentaires *}
-                {/foreach}
+                    {foreach from=$comments item=comment}
+                        {include file="$tpl_dir./comments/partials/comment.tpl"}
+                    {/foreach}
                 </div>
             {/if}
         </div>
