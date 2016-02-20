@@ -1,0 +1,7 @@
+CREATE TABLE user
+(
+    id_user INTEGER PRIMARY KEY AUTOINCREMENT,
+    login VARCHAR(150) NOT NULL,
+    password VARCHAR(150) NOT NULL,
+    date_add DATETIME NOT NULL
+);
