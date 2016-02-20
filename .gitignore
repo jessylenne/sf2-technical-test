@@ -1,4 +1,4 @@
-/app/cache/*
+/cache/*
 /node_modules/
 
 # Managed by Composer
