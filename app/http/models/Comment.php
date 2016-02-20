@@ -26,4 +26,78 @@ class Comment extends ObjectModel {
     {
         return new User($this->id_user);
     }
+
+    public function getDate()
+    {
+        return $this->date_add;
+    }
+
+    /**
+     * @param User $user
+     * @return Comment
+     */
+    public function setUser(User $user)
+    {
+        $this->id_user = $user->id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * @param $repository
+     * @return $this
+     * @todo check repository <-> username Github's relationship
+     */
+    public function setRepository($repository)
+    {
+        $this->repository = $repository;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param $comment
+     * @return $this
+     * @throws Exception
+     */
+    public function setComment($comment)
+    {
+        if(!Validate::isCleanHTML($comment))
+            throw new Exception('Veuillez fournir un commentaire valide');
+
+        $this->comment = $comment;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param $username
+     * @return $this
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        return $this;
+    }
 }

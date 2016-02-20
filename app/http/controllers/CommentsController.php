@@ -1,6 +1,8 @@
 <?php
 
 class CommentsController extends Controller {
+    private $profile;
+
     public function initContent()
     {
         parent::initContent();
@@ -13,6 +15,7 @@ class CommentsController extends Controller {
                 if(!$profile || !isset($profile['login']))
                     $this->errors[] = 'Utilisateur introuvable';
                 else {
+                    $this->profile = $profile;
                     // et les commentaires que l'on a déposé sur ce profil
                     $comments = Auth::getUser()->comments(array('username' => $username));
 
@@ -49,6 +52,27 @@ class CommentsController extends Controller {
             }
             catch(Exception $e) {
                 $this->errors[] = 'Impossible de récupérer les profils correspondant à votre recherche';
+            }
+        }
+        // Ajout d'un nouveau commentaire
+        elseif(Tools::isSubmit('submitAddComment')) {
+            if(!$this->profile)
+                return $this->errors[] = 'Veuillez specifier un profil valide';
+            elseif(!Validate::isCleanHTML($commentContent = Tools::getValue('comment')))
+                return $this->errors[] = 'Veuillez fournir un commentaire valide';
+
+            $comment = new Comment();
+            $comment->setUser(Auth::getUser())
+                ->setUsername($this->profile['login'])
+                ->setRepository('all')
+                ->setComment(nl2br($commentContent));
+
+            if(!$comment->save()) {
+                $this->errors[] = "Impossible d'enregistrer le commentaire (".Db::getInstance()->getMsgError().")";
+            }
+            else {
+                Flash::success('Votre commentaire a bien été ajouté!');
+                Tools::redirect($this->context->link->getPageLink('comments', array('user' => $this->profile['login'])));
             }
         }
     }
